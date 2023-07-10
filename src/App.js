@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import MousePointer from './MousePointer';
 import anime from 'animejs';
-import './css/App.css'
+import './css/App.css';
 
 const App = () => {
+    // Spinning squares animation
     const squaresCount = 36;
 
     const shapes = Array(squaresCount)
@@ -34,6 +35,7 @@ const App = () => {
         });
     }, []);
 
+    // Wallet Check & Connect
     const [currentAccount, setCurrentAccount] = useState("");
     const [showHiddenDiv, setShowHiddenDiv] = useState(false);
 
@@ -72,6 +74,11 @@ const App = () => {
         }
     };
 
+    // Lottery Draw
+    const currentPrize = 100; // Example: Current prize in Ether
+    const ticketsRemaining = 50; // Example: Number of tickets remaining
+    const pricePerTicket = 0.01; // Example: Price per ticket in Ether
+
     return (
         <div>
             {!showHiddenDiv && (
@@ -104,11 +111,52 @@ const App = () => {
                     <div className="grid"></div>
                     <div id="hidden-div-title" className="center-top">
                         <h5 className="fancy">
-                            <span className="gradient-text">Spin the wheel</span>
+                            <span className="gradient-text">Lottery Draw</span>
                         </h5>
+                    </div>
+                    <div className="panel">
+                        <div className="panel-item">
+                            <div>
+                                <span className="panel-item-label">Current Prize</span>
+                                <span className="panel-item-value">{currentPrize} ETH</span>
+                            </div>
+                            <div>
+                                <span className="panel-item-label">Tickets Remaining</span>
+                                <span className="panel-item-value">{ticketsRemaining}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="second-panel">
+                        <div className="panel-item">
+                            <div>
+                                <span className="panel-item-label">Prize per Ticket</span>
+                                <span className="panel-item-value italic">0.01</span>
+                            </div>
+                            <div>
+                                <span className="panel-item-label">Number of Tickets</span>
+                                <input type="text" className="panel-item-input" />
+                            </div>
+                            <div>
+                                <span className="panel-item-label">Total Cost of Tickets</span>
+                                <span className="panel-item-value italic"></span>
+                            </div>
+                            <div>
+                                <span className="panel-item-label italic">Service Fees</span>
+                                {/*<span className="panel-item-value italic">{serviceFees} ETH</span>*/}
+                            </div>
+                            <div>
+                                <span className="panel-item-label italic">Network Fees</span>
+                                {/*<span className="panel-item-value italic">{networkFees} ETH</span>*/}
+                            </div>
+                            <div className="purchase-button">
+                                <button className="purchase-button">Purchase</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
+
         </div>
     );
 };

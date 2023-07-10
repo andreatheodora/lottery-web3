@@ -173,7 +173,6 @@
     margin: 0px;
     pointer-events: none;
     transition: opacity 1200ms ease;
-    width: 50vw;
     z-index: 3;
 }
 
@@ -181,7 +180,7 @@
     left: 50%;
     top: 10%;
     position: absolute;
-    transform: translate(-25%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 #hidden-div-title > .fancy > .gradient-text {
@@ -190,4 +189,143 @@
     -webkit-text-fill-color: transparent;
     background-size: 200% auto;
     animation: colorMovement 3s linear infinite;
+}
+
+/* Panel */
+.panel {
+    margin-top: 20vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    border: 2px solid;
+    border-image-slice: 1;
+    border-width: 2px;
+    border-image-source: linear-gradient(to right, #64FFB4, #6464FF);
+    max-width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    text-align: left;
+    border-radius: 10px;
+}
+
+.panel-item {
+    font-family: "Rubik", sans-serif;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start; /* Align items at the start of the container */
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.panel-item > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items at the start of each column */
+    margin-right: 5vw; /* Add spacing between columns */
+}
+
+.panel-item-label {
+    font-family: "Rubik", sans-serif;
+    color: #fff;
+}
+
+.panel-item-value {
+    color: #fff;
+    font-size: 2em; /* Increase font size for values */
+}
+
+.second-panel {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: rgba(255, 255, 255, 0.075);
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    border: 2px solid;
+    border-image-slice: 1;
+    border-width: 2px;
+    border-image-source: linear-gradient(to right, #64FFB4, #6464FF);
+    max-width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    text-align: left;
+    border-radius: 10px;
+}
+
+.second-panel .panel-item {
+    flex-direction: column;
+}
+
+.second-panel .panel-item > div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.second-panel .panel-item-label {
+    font-family: "Rubik", sans-serif;
+    color: #fff;
+}
+
+.second-panel .panel-item-value {
+    font-family: "Rubik", sans-serif;
+    color: #fff;
+    margin-right: 10px;
+}
+
+.second-panel .panel-item-input {
+    padding: 0.5em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-family: "Rubik", sans-serif;
+    color: #333;
+}
+
+.second-panel .purchase-button {
+    display: flex;
+    justify-content: center;
+}
+
+.second-panel .purchase-button button {
+    width: 100%;
+    padding: 0.9rem 10.5rem;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    border: 3px solid #64FFB4;
+    cursor: pointer;
+    position: relative;
+    background-color: transparent;
+    text-decoration: none;
+    overflow: hidden;
+    font-family: inherit;
+
+}
+
+.second-panel .purchase-button button:hover {
+    animation: shake 0.7s infinite;
+    transform-origin: center;
+}
+
+.second-panel .purchase-button button::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #4CBC86;
+    transform: translateX(-100%);
+    transition: all .3s;
+    z-index: -1;
+}
+
+.second-panel .purchase-button button:hover::before {
+    transform: translateX(0);
 }
