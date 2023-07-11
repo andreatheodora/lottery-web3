@@ -35,9 +35,11 @@ const App = () => {
         });
     }, []);
 
-    // Wallet Check & Connect
+    // Wallet Check & Connect, Ticket prices functionality
     const [currentAccount, setCurrentAccount] = useState("");
     const [showHiddenDiv, setShowHiddenDiv] = useState(false);
+    const [numberOfTickets, setNumberOfTickets] = useState(0);
+    const [totalCost, setTotalCost] = useState(0);
 
     useEffect(() => {
         const checkMetaMaskConnection = async () => {
@@ -74,10 +76,33 @@ const App = () => {
         }
     };
 
+    // Calculate total cost of tickets
+    useEffect(() => {
+        const calculateTotalCost = () => {
+            const cost = numberOfTickets * pricePerTicket;
+            setTotalCost(cost);
+        };
+
+        calculateTotalCost();
+    }, [numberOfTickets]);
+
     // Lottery Draw
     const currentPrize = 100; // Example: Current prize in Ether
     const ticketsRemaining = 50; // Example: Number of tickets remaining
-    const pricePerTicket = 0.01; // Example: Price per ticket in Ether
+    const pricePerTicket = 0.001; // Example: Price per ticket in Ether
+    const networkFees = 0.000001;
+
+    const handleTicketInputChange = (e) => {
+        const inputtedTickets = parseInt(e.target.value);
+        if (isNaN(inputtedTickets)) {
+            setNumberOfTickets(0);
+        } else if (inputtedTickets <= ticketsRemaining) {
+            setNumberOfTickets(inputtedTickets);
+        } else {
+            setNumberOfTickets(ticketsRemaining);
+        }
+    };
+
 
     return (
         <div>
@@ -143,7 +168,12 @@ const App = () => {
                                     <span className="panel-item-label">Number of Tickets</span>
                                 </td>
                                 <td>
-                                    <input type="text" className="panel-item-input" />
+                                    <input
+                                        type="number"
+                                        className="panel-item-input"
+                                        value={numberOfTickets}
+                                        onChange={handleTicketInputChange}
+                                    />
                                 </td>
                             </tr>
                             <tr>
@@ -151,7 +181,7 @@ const App = () => {
                                     <span className="panel-item-label">Total Cost of Tickets</span>
                                 </td>
                                 <td>
-                                    <span className="panel-item-value italic"></span>
+                                    <span className="panel-item-value italic">{totalCost} ETH</span>
                                 </td>
                             </tr>
                             <tr>
@@ -159,7 +189,7 @@ const App = () => {
                                     <span className="panel-item-label italic">Service Fees</span>
                                 </td>
                                 <td>
-                                    {/*<span className="panel-item-value italic">{serviceFees} ETH</span>*/}
+                                    <span className="panel-item-value italic">0.0001 ETH</span>
                                 </td>
                             </tr>
                             <tr>
@@ -167,7 +197,7 @@ const App = () => {
                                     <span className="panel-item-label italic">Network Fees</span>
                                 </td>
                                 <td>
-                                    {/*<span className="panel-item-value italic">{networkFees} ETH</span>*/}
+                                    <span className="panel-item-value italic">{networkFees} ETH</span>
                                 </td>
                             </tr>
                             <tr>
@@ -182,7 +212,6 @@ const App = () => {
                     </div>
                 </div>
             )}
-
         </div>
     );
 };
