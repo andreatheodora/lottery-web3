@@ -235,14 +235,11 @@
 
 .panel-item-value {
     color: #fff;
-    font-size: 2em; /* Increase font size for values */
+    font-size: 1.5em; /* Increase font size for values */
 }
 
 .second-panel {
     margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     background-color: rgba(255, 255, 255, 0.075);
     backdrop-filter: blur(5px);
     padding: 20px;
@@ -258,28 +255,26 @@
     border-radius: 10px;
 }
 
-.second-panel .panel-item {
-    flex-direction: column;
+.panel-table {
+    width: 100%;
 }
 
-.second-panel .panel-item > div {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+.panel-table td {
+    padding: 10px 0;
 }
 
-.second-panel .panel-item-label {
+.panel-item-label {
     font-family: "Rubik", sans-serif;
     color: #fff;
 }
 
-.second-panel .panel-item-value {
+.panel-item-value {
     font-family: "Rubik", sans-serif;
     color: #fff;
     margin-right: 10px;
 }
 
-.second-panel .panel-item-input {
+.panel-item-input {
     padding: 0.5em;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -287,12 +282,12 @@
     color: #333;
 }
 
-.second-panel .purchase-button {
+.purchase-button {
     display: flex;
     justify-content: center;
 }
 
-.second-panel .purchase-button button {
+.purchase-button button {
     width: 100%;
     padding: 0.9rem 10.5rem;
     font-size: 16px;
@@ -305,15 +300,14 @@
     text-decoration: none;
     overflow: hidden;
     font-family: inherit;
-
 }
 
-.second-panel .purchase-button button:hover {
+.purchase-button button:hover {
     animation: shake 0.7s infinite;
     transform-origin: center;
 }
 
-.second-panel .purchase-button button::before {
+.purchase-button button::before {
     content: "";
     position: absolute;
     left: 0;
@@ -326,6 +320,6 @@
     z-index: -1;
 }
 
-.second-panel .purchase-button button:hover::before {
+.purchase-button button:hover::before {
     transform: translateX(0);
 }

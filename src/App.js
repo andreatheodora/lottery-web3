@@ -128,31 +128,57 @@ const App = () => {
                     </div>
 
                     <div className="second-panel">
-                        <div className="panel-item">
-                            <div>
-                                <span className="panel-item-label">Prize per Ticket</span>
-                                <span className="panel-item-value italic">0.01</span>
-                            </div>
-                            <div>
-                                <span className="panel-item-label">Number of Tickets</span>
-                                <input type="text" className="panel-item-input" />
-                            </div>
-                            <div>
-                                <span className="panel-item-label">Total Cost of Tickets</span>
-                                <span className="panel-item-value italic"></span>
-                            </div>
-                            <div>
-                                <span className="panel-item-label italic">Service Fees</span>
-                                {/*<span className="panel-item-value italic">{serviceFees} ETH</span>*/}
-                            </div>
-                            <div>
-                                <span className="panel-item-label italic">Network Fees</span>
-                                {/*<span className="panel-item-value italic">{networkFees} ETH</span>*/}
-                            </div>
-                            <div className="purchase-button">
-                                <button className="purchase-button">Purchase</button>
-                            </div>
-                        </div>
+                        <table className="panel-table">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <span className="panel-item-label">Prize per Ticket</span>
+                                </td>
+                                <td>
+                                    <span className="panel-item-value italic">{pricePerTicket} ETH</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span className="panel-item-label">Number of Tickets</span>
+                                </td>
+                                <td>
+                                    <input type="text" className="panel-item-input" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span className="panel-item-label">Total Cost of Tickets</span>
+                                </td>
+                                <td>
+                                    <span className="panel-item-value italic"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span className="panel-item-label italic">Service Fees</span>
+                                </td>
+                                <td>
+                                    {/*<span className="panel-item-value italic">{serviceFees} ETH</span>*/}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span className="panel-item-label italic">Network Fees</span>
+                                </td>
+                                <td>
+                                    {/*<span className="panel-item-value italic">{networkFees} ETH</span>*/}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colSpan="2">
+                                    <div className="purchase-button">
+                                        <button className="purchase-button">Purchase</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             )}
