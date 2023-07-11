@@ -1,10 +1,15 @@
+import abi from './utils/Lottery.json';
+import { BigNumber, ethers } from 'ethers';
 import React, { useState, useEffect } from 'react';
-import { ethers } from 'ethers';
 import MousePointer from './MousePointer';
 import anime from 'animejs';
 import './css/App.css';
 
 const App = () => {
+    // Contract address & ABI
+    const contractAddress = "0x83C3673aB1d4F95167a5Cc9cFa93f26b6fA799cF"
+    const contractABI = abi.abi
+
     // Spinning squares animation
     const squaresCount = 36;
 
@@ -52,8 +57,68 @@ const App = () => {
             }
         };
 
+        const getLotteryInfo = async () => {
+            try {
+                const { ethereum } = window;
+                if (ethereum) {
+                    const provider = new ethers.providers.Web3Provider(ethereum)
+                    const signer = provider.getSigner();
+                    const lottery = new ethers.Contract(
+                        contractAddress,
+                        contractABI,
+                        signer
+                    );
+    
+                    console.log("fetching lottery data...");
+                    const prizeInWei = await lottery.getContractBalance();
+                    const prize = prizeInWei / (10**18);
+                    console.log(prize.toString());
+                    setCurrentPrize(prize.toString());
+                    const ticketsRemaining = await lottery.getTicketsRemaining();
+                    console.log(ticketsRemaining)
+                    setTicketsRemaining(parseInt(ticketsRemaining));
+                    console.log("fetched!");
+    
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+
         checkMetaMaskConnection();
+        getLotteryInfo();
     }, []);
+
+        // Lottery Draw
+        const [currentPrize, setCurrentPrize] = useState(0)
+        const [ticketsRemaining, setTicketsRemaining] = useState(0)
+     //     const currentPrize = 100; // Example: Current prize in Ether
+     //   const ticketsRemaining = 50; // Example: Number of tickets remaining
+        const pricePerTicket = 1000000000000000; // Example: Price per ticket in Wei
+        const networkFees = 1000000000000;
+        const serviceFees = 100000000000000;
+
+    // Calculate total cost of tickets
+    useEffect(() => {
+        const calculateTotalCost = () => {
+            const cost = numberOfTickets * pricePerTicket;
+            setTotalCost(cost);
+        };
+
+        calculateTotalCost();
+    }, [numberOfTickets]);
+
+    const handleTicketInputChange = (e) => {
+        const inputtedTickets = parseInt(e.target.value);
+        if (isNaN(inputtedTickets)) {
+            setNumberOfTickets(0);
+        } else if (inputtedTickets <= ticketsRemaining) {
+            setNumberOfTickets(inputtedTickets);
+        } else {
+            setNumberOfTickets(ticketsRemaining);
+        }
+    };
 
     const connectWallet = async () => {
         try {
@@ -76,32 +141,28 @@ const App = () => {
         }
     };
 
-    // Calculate total cost of tickets
-    useEffect(() => {
-        const calculateTotalCost = () => {
-            const cost = numberOfTickets * pricePerTicket;
-            setTotalCost(cost);
-        };
+    const purchase = async () => {
+        try {
+            const { ethereum } = window;
 
-        calculateTotalCost();
-    }, [numberOfTickets]);
-
-    // Lottery Draw
-    const currentPrize = 100; // Example: Current prize in Ether
-    const ticketsRemaining = 50; // Example: Number of tickets remaining
-    const pricePerTicket = 0.001; // Example: Price per ticket in Ether
-    const networkFees = 0.000001;
-
-    const handleTicketInputChange = (e) => {
-        const inputtedTickets = parseInt(e.target.value);
-        if (isNaN(inputtedTickets)) {
-            setNumberOfTickets(0);
-        } else if (inputtedTickets <= ticketsRemaining) {
-            setNumberOfTickets(inputtedTickets);
-        } else {
-            setNumberOfTickets(ticketsRemaining);
+            if(ethereum) {
+                const provider = new ethers.providers.Web3Provider(ethereum, "any");
+                const signer = provider.getSigner();
+                const lottery = new ethers.Contract(
+                  contractAddress,
+                  contractABI,
+                  signer
+                );    
+                
+                const entryTxn = await lottery.enter(
+                    numberOfTickets,
+                    {value: totalCost}
+                )
+            }
+        } catch (error) {
+            console.log(error)
         }
-    };
+    }
 
 
     return (
@@ -160,7 +221,7 @@ const App = () => {
                                     <span className="panel-item-label">Prize per Ticket</span>
                                 </td>
                                 <td>
-                                    <span className="panel-item-value italic">{pricePerTicket} ETH</span>
+                                    <span className="panel-item-value italic">{(pricePerTicket)/10**18} ETH</span>
                                 </td>
                             </tr>
                             <tr>
@@ -181,7 +242,7 @@ const App = () => {
                                     <span className="panel-item-label">Total Cost of Tickets</span>
                                 </td>
                                 <td>
-                                    <span className="panel-item-value italic">{totalCost} ETH</span>
+                                    <span className="panel-item-value italic">{totalCost/(10**18)} ETH</span>
                                 </td>
                             </tr>
                             <tr>
@@ -197,13 +258,13 @@ const App = () => {
                                     <span className="panel-item-label italic">Network Fees</span>
                                 </td>
                                 <td>
-                                    <span className="panel-item-value italic">{networkFees} ETH</span>
+                                    <span className="panel-item-value italic">{networkFees/(10**18)} ETH</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td colSpan="2">
                                     <div className="purchase-button">
-                                        <button className="purchase-button">Purchase</button>
+                                        <button className="purchase-button" onClick={purchase}>Purchase</button>
                                     </div>
                                 </td>
                             </tr>
