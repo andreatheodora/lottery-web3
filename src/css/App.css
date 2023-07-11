@@ -323,3 +323,54 @@
 .purchase-button button:hover::before {
     transform: translateX(0);
 }
+
+/* Admin Button */
+.admin-button {
+    display: flex;
+    padding: 0.9rem 1.8rem;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    background-color: transparent;
+    border: 3px solid #64FFB4;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    overflow: hidden;
+    z-index: 1;
+    font-family: inherit;
+    margin-top: 10px;
+    justify-content: center;
+    align-items:center;
+}
+
+.admin-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Add a margin top for spacing */
+}
+
+.admin-button:hover {
+    animation: shake 0.7s infinite;
+    transform-origin: center;
+}
+
+
+.admin-button::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #4CBC86;
+    transform: translateX(-100%);
+    transition: all .3s;
+    z-index: -1;
+}
+
+.admin-button:hover::before {
+    transform: translateX(0);
+}
+

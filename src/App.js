@@ -1,6 +1,6 @@
 import abi from './utils/Lottery.json';
-import { BigNumber, ethers } from 'ethers';
-import React, { useState, useEffect } from 'react';
+import {BigNumber, ethers} from 'ethers';
+import React, {useState, useEffect} from 'react';
 import MousePointer from './MousePointer';
 import anime from 'animejs';
 import './css/App.css';
@@ -28,9 +28,9 @@ const App = () => {
             anime({
                 targets: square,
                 keyframes: [
-                    { rotate: '0deg', scale: 1, borderRadius: '0%', opacity: '100%' },
-                    { rotate: '360deg', scale: 1.25, borderRadius: '50%' },
-                    { rotate: '720deg', scale: 1, borderRadius: '0%', opacity: '0%' },
+                    {rotate: '0deg', scale: 1, borderRadius: '0%', opacity: '100%'},
+                    {rotate: '360deg', scale: 1.25, borderRadius: '50%'},
+                    {rotate: '720deg', scale: 1, borderRadius: '0%', opacity: '0%'},
                 ],
                 duration: 4000,
                 easing: 'easeInOutQuad',
@@ -48,7 +48,7 @@ const App = () => {
 
     useEffect(() => {
         const checkMetaMaskConnection = async () => {
-            const { ethereum } = window;
+            const {ethereum} = window;
             if (ethereum && ethereum.selectedAddress) {
                 console.log("MetaMask is connected");
                 setCurrentAccount(ethereum.selectedAddress);
@@ -59,7 +59,7 @@ const App = () => {
 
         const getLotteryInfo = async () => {
             try {
-                const { ethereum } = window;
+                const {ethereum} = window;
                 if (ethereum) {
                     const provider = new ethers.providers.Web3Provider(ethereum)
                     const signer = provider.getSigner();
@@ -68,17 +68,17 @@ const App = () => {
                         contractABI,
                         signer
                     );
-    
+
                     console.log("fetching lottery data...");
                     const prizeInWei = await lottery.getContractBalance();
-                    const prize = prizeInWei / (10**18);
+                    const prize = prizeInWei / (10 ** 18);
                     console.log(prize.toString());
                     setCurrentPrize(prize.toString());
                     const ticketsRemaining = await lottery.getTicketsRemaining();
                     console.log(ticketsRemaining)
                     setTicketsRemaining(parseInt(ticketsRemaining));
                     console.log("fetched!");
-    
+
                 }
             } catch (error) {
                 console.log(error);
@@ -90,14 +90,14 @@ const App = () => {
         getLotteryInfo();
     }, []);
 
-        // Lottery Draw
-        const [currentPrize, setCurrentPrize] = useState(0)
-        const [ticketsRemaining, setTicketsRemaining] = useState(0)
-     //     const currentPrize = 100; // Example: Current prize in Ether
-     //   const ticketsRemaining = 50; // Example: Number of tickets remaining
-        const pricePerTicket = 1000000000000000; // Example: Price per ticket in Wei
-        const networkFees = 1000000000000;
-        const serviceFees = 100000000000000;
+    // Lottery Draw
+    const [currentPrize, setCurrentPrize] = useState(0)
+    const [ticketsRemaining, setTicketsRemaining] = useState(0)
+    //     const currentPrize = 100; // Example: Current prize in Ether
+    //   const ticketsRemaining = 50; // Example: Number of tickets remaining
+    const pricePerTicket = 1000000000000000; // Example: Price per ticket in Wei
+    const networkFees = 1000000000000;
+    const serviceFees = 100000000000000;
 
     // Calculate total cost of tickets
     useEffect(() => {
@@ -108,6 +108,7 @@ const App = () => {
 
         calculateTotalCost();
     }, [numberOfTickets]);
+
 
     const handleTicketInputChange = (e) => {
         const inputtedTickets = parseInt(e.target.value);
@@ -122,7 +123,7 @@ const App = () => {
 
     const connectWallet = async () => {
         try {
-            const { ethereum } = window;
+            const {ethereum} = window;
 
             if (!ethereum) {
                 alert("Please install MetaMask!");
@@ -140,20 +141,26 @@ const App = () => {
             console.log(error);
         }
     };
+    // Admin Checker logic
+    const [isAdmin, setIsAdmin] = useState(true);
+
+    const handleAdminButtonClick = () => {
+        //
+    };
 
     const purchase = async () => {
         try {
-            const { ethereum } = window;
+            const {ethereum} = window;
 
-            if(ethereum) {
+            if (ethereum) {
                 const provider = new ethers.providers.Web3Provider(ethereum, "any");
                 const signer = provider.getSigner();
                 const lottery = new ethers.Contract(
-                  contractAddress,
-                  contractABI,
-                  signer
-                );    
-                
+                    contractAddress,
+                    contractABI,
+                    signer
+                );
+
                 const entryTxn = await lottery.enter(
                     numberOfTickets,
                     {value: totalCost}
@@ -170,7 +177,7 @@ const App = () => {
             {!showHiddenDiv && (
                 <div>
                     {/* Home page content */}
-                    <MousePointer />
+                    <MousePointer/>
                     <div className="centered">
                         <h2 id="title">
                             Welcome to Our
@@ -179,7 +186,7 @@ const App = () => {
                                 <span className="gradient-text">Lottery.</span>
                             </h2>
                         </h2>
-                        <button id="btn" style={{ marginTop: '1em' }} onClick={connectWallet}>
+                        <button id="btn" style={{marginTop: '1em'}} onClick={connectWallet}>
                             Try Your Luck
                         </button>
                     </div>
@@ -193,7 +200,7 @@ const App = () => {
             {showHiddenDiv && (
                 <div>
                     {/* Hidden div content */}
-                    <MousePointer />
+                    <MousePointer/>
                     <div className="grid"></div>
                     <div id="hidden-div-title" className="center-top">
                         <h5 className="fancy">
@@ -221,7 +228,7 @@ const App = () => {
                                     <span className="panel-item-label">Prize per Ticket</span>
                                 </td>
                                 <td>
-                                    <span className="panel-item-value italic">{(pricePerTicket)/10**18} ETH</span>
+                                    <span className="panel-item-value italic">{(pricePerTicket) / 10 ** 18} ETH</span>
                                 </td>
                             </tr>
                             <tr>
@@ -242,7 +249,7 @@ const App = () => {
                                     <span className="panel-item-label">Total Cost of Tickets</span>
                                 </td>
                                 <td>
-                                    <span className="panel-item-value italic">{totalCost/(10**18)} ETH</span>
+                                    <span className="panel-item-value italic">{totalCost / (10 ** 18)} ETH</span>
                                 </td>
                             </tr>
                             <tr>
@@ -258,7 +265,7 @@ const App = () => {
                                     <span className="panel-item-label italic">Network Fees</span>
                                 </td>
                                 <td>
-                                    <span className="panel-item-value italic">{networkFees/(10**18)} ETH</span>
+                                    <span className="panel-item-value italic">{networkFees / (10 ** 18)} ETH</span>
                                 </td>
                             </tr>
                             <tr>
@@ -270,6 +277,15 @@ const App = () => {
                             </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div>
+                        {isAdmin && showHiddenDiv && (
+                            <div className="admin-button-container">
+                                <button className="admin-button" onClick={handleAdminButtonClick}>
+                                    Admin Button
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
