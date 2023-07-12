@@ -141,12 +141,21 @@ const App = () => {
             console.log(error);
         }
     };
-    // Admin Checker logic
+
+    // Admin , Winner, and LotteryOver Checker logic
     const [isAdmin, setIsAdmin] = useState(true);
+    const [isLotteryOver, setIsLotteryOver] = useState(false);
+    const [isWinner, setIsWinner] = useState(false);
 
     const handleAdminButtonClick = () => {
-        //
+        try {
+            // handle button click
+            setIsLotteryOver(true);
+        } catch (e) {
+            console.log(e)
+        }
     };
+
 
     const purchase = async () => {
         try {
@@ -174,6 +183,7 @@ const App = () => {
 
     return (
         <div>
+            {/*Main Home Page*/}
             {!showHiddenDiv && (
                 <div>
                     {/* Home page content */}
@@ -182,7 +192,6 @@ const App = () => {
                         <h2 id="title">
                             Welcome to Our
                             <h2 id="title" className="fancy">
-                                {' '}
                                 <span className="gradient-text">Lottery.</span>
                             </h2>
                         </h2>
@@ -197,7 +206,8 @@ const App = () => {
                 </div>
             )}
 
-            {showHiddenDiv && (
+            {/*Lottery Purchase Page, Admin Button*/}
+            {showHiddenDiv && !isWinner && !isLotteryOver && (
                 <div>
                     {/* Hidden div content */}
                     <MousePointer/>
@@ -282,11 +292,44 @@ const App = () => {
                         {isAdmin && showHiddenDiv && (
                             <div className="admin-button-container">
                                 <button className="admin-button" onClick={handleAdminButtonClick}>
-                                    Admin Button
+                                    Pick Winner
                                 </button>
                             </div>
                         )}
                     </div>
+                </div>
+            )}
+
+            {/*Lottery is over and not winner page*/}
+            {showHiddenDiv && !isWinner && isLotteryOver && (
+                <div>
+                    <MousePointer/>
+                    <div className="centered">
+                        <h2 id="title">Sorry.. </h2>
+                        <h2 id="title" className="fancy">
+                            {' '}
+                            <span className="gradient-text">You didn't Win.</span>
+                            <h2 id="title">
+                                <span className="gradient-text">Better luck next time!</span>
+                            </h2>
+                        </h2>
+                    </div>
+                    <div className="grid"/>
+                </div>
+            )}
+
+            {/*Lottery is over and is winner page*/}
+            {showHiddenDiv && isWinner && isLotteryOver && (
+                <div>
+                    <MousePointer/>
+                    <div className="centered">
+                        <h2 id="title">Congratulations.. </h2>
+                        <h2 id="title" className="fancy">
+                            {' '}
+                            <span className="gradient-text">You are the Winner!</span>
+                        </h2>
+                    </div>
+                    <div className="grid"/>
                 </div>
             )}
         </div>
