@@ -6,6 +6,7 @@ contract Lottery {
     address[] public players;
     uint256 public prizePool;
     uint public numberOfTickets;
+    address public winner;
 
     event NewEntry(
         address indexed from,
@@ -51,14 +52,20 @@ contract Lottery {
         return players;
     }
 
-    function pickWinner() public restricted {
+     function pickWinner() public restricted {
         require(players.length > 0, "No players in the lottery");
 
         uint256 index = random() % players.length;
-        address payable winner = payable(players[index]);
-        winner.transfer(address(this).balance);
+        address payable result = payable(players[index]);
+        result.transfer(address(this).balance);
 
         players = new address[](0); // Resetting the players array
+
+        numberOfTickets = 50;
+    }
+
+    function getWinner() public view returns (address) {
+        return winner;
     }
 
     function random() private view returns (uint256) {
@@ -73,6 +80,14 @@ contract Lottery {
 
     function getTicketsRemaining() public view returns (uint) {
         return numberOfTickets;
+    }
+
+    function isAdmin(address _addr) public view returns (bool) {
+        if (manager == _addr) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     modifier restricted() {
