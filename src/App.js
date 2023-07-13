@@ -4,11 +4,11 @@ import React, {useState, useEffect} from 'react';
 import MousePointer from './MousePointer';
 import anime from 'animejs';
 import './css/App.css';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 const App = () => {
     // Contract address & ABI
-    //const contractAddress = "0x8bcF76c96c717eD9eCA09d90200f1C74f6CdF3Aa"
-    const contractAddress = "0xD309940cc6dd5A0b72ee2DC52E3E5D14d3dfD1A6"
+    const contractAddress = "0x606e25985d6eaFd86e7eef86D00Ae52772f9541C"
     const contractABI = abi.abi
 
     // Spinning squares animation
@@ -266,7 +266,14 @@ const App = () => {
                 const entryTxn = await lottery.enter(
                     numberOfTickets,
                     {value: BigNumber.from(totalCostInString)}
-                );
+                ).then(() => {
+                    setShowNotification(true);
+
+                    // Hide the notification after 3 seconds
+                    setTimeout(() => {
+                    setShowNotification(false);
+                    }, 3000);
+                });            
 
                 console.log(entryTxn);
             }
@@ -274,6 +281,8 @@ const App = () => {
             console.log(error)
         }
     }
+
+    const [showNotification, setShowNotification] = useState(false);
 
     return (
         <div>
@@ -424,6 +433,13 @@ const App = () => {
                         </h2>
                     </div>
                     <div className="grid"/>
+                </div>
+            )}
+
+            {showNotification && (
+                <div className="popup">
+                <TaskAltIcon style={{ color: 'green', fontSize: '3rem' }}/>
+                <p>Purchase complete!</p>
                 </div>
             )}
         </div>
