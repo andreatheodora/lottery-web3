@@ -47,9 +47,8 @@
 
 .squares-container {
     position: absolute;
-    margin-top: 25vh;
-    right: 20vh;
-    transform: translateY(-50%);
+    margin-top: 23vh;
+    right: 15vw;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 40px; /* Adjust the gap between squares */
@@ -68,7 +67,7 @@
     width: 100vw;
     height: 100vh;
     background-image: linear-gradient(
-            45deg,
+            90deg,
             rgba(255, 255, 255, 0.075) 25%,
             transparent 25%,
             transparent 75%,
@@ -303,7 +302,7 @@
 }
 
 .purchase-button button:hover {
-    animation: shake 0.7s infinite;
+
     transform-origin: center;
 }
 
@@ -314,7 +313,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: #4CBC86;
+    background-image: linear-gradient(#64FFB4, #6464FF );
     transform: translateX(-100%);
     transition: all .3s;
     z-index: -1;

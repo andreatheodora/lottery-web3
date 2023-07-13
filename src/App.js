@@ -1,8 +1,7 @@
 import abi from './utils/Lottery.json';
 import {BigNumber, ethers} from 'ethers';
 import React, {useState, useEffect} from 'react';
-import MousePointer from './MousePointer';
-import anime from 'animejs';
+import AnimateSquares from "./AnimateSquares";
 import './css/App.css';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
@@ -10,36 +9,6 @@ const App = () => {
     // Contract address & ABI
     const contractAddress = "0x71667827D8b1010B6dE1c1cf6f686C45C3Cf1fEe"
     const contractABI = abi.abi
-
-    // Spinning squares animation
-    const squaresCount = 36;
-
-    const shapes = Array(squaresCount)
-        .fill()
-        .map((_, index) => <div key={index} className="square"></div>);
-
-    useEffect(() => {
-        const squares = document.querySelectorAll('.square');
-
-        squares.forEach((square, index) => {
-            const row = Math.floor(index / 6);
-            const col = index % 6;
-
-            const delay = row * 100 + col * 100;
-            anime({
-                targets: square,
-                keyframes: [
-                    {rotate: '0deg', scale: 1, borderRadius: '0%', opacity: '100%'},
-                    {rotate: '360deg', scale: 1.25, borderRadius: '50%'},
-                    {rotate: '720deg', scale: 1, borderRadius: '0%', opacity: '0%'},
-                ],
-                duration: 4000,
-                easing: 'easeInOutQuad',
-                loop: true,
-                delay: delay,
-            });
-        });
-    }, []);
 
     // Wallet Check & Connect, Ticket prices functionality, Lottery info
     const [currentAccount, setCurrentAccount] = useState("");
@@ -140,7 +109,7 @@ const App = () => {
 
     const handleTicketInputChange = (e) => {
         const inputtedTickets = parseInt(e.target.value);
-        if (isNaN(inputtedTickets)) {
+        if (isNaN(inputtedTickets) || inputtedTickets < 0) {
             setNumberOfTickets(0);
         } else if (inputtedTickets <= ticketsRemaining) {
             setNumberOfTickets(inputtedTickets);
@@ -310,7 +279,6 @@ const App = () => {
             {!showHiddenDiv && (
                 <div>
                     {/* Home page content */}
-                    <MousePointer/>
                     <div className="centered">
                         <h2 id="title">
                             Welcome to Our
@@ -323,9 +291,7 @@ const App = () => {
                         </button>
                     </div>
                     <div className="grid"></div>
-                    <div className="squares-container">
-                        <div className="squares-container">{shapes}</div>
-                    </div>
+                    <AnimateSquares/>
                 </div>
             )}
 
@@ -333,8 +299,6 @@ const App = () => {
             {showHiddenDiv && !lotteryIsOver && (
                 <div>
                     {/* Hidden div content */}
-                    <MousePointer/>
-                    <div className="grid"></div>
                     <div id="hidden-div-title" className="center-top">
                         <h5 className="fancy">
                             <span className="gradient-text">Lottery Draw</span>
@@ -387,14 +351,6 @@ const App = () => {
                             </tr>
                             <tr>
                                 <td>
-                                    <span className="panel-item-label italic">Service Fees</span>
-                                </td>
-                                <td>
-                                    <span className="panel-item-value italic">0.0001 ETH</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
                                     <span className="panel-item-label italic">Network Fees</span>
                                 </td>
                                 <td>
@@ -426,7 +382,6 @@ const App = () => {
             {/*Lottery is over and not winner page*/}
             {showHiddenDiv && !isWinner && lotteryIsOver && (
                 <div>
-                    <MousePointer/>
                     <div className="centered">
                         <h2 id="title">Sorry.. </h2>
                         <h2 id="title" className="fancy">
@@ -444,9 +399,8 @@ const App = () => {
             {/*Lottery is over and is winner page*/}
             {showHiddenDiv && isWinner && lotteryIsOver && (
                 <div>
-                    <MousePointer/>
                     <div className="centered">
-                        <h2 id="title">Congratulations.. </h2>
+                        <h2 id="title">Congratulations </h2>
                         <h2 id="title" className="fancy">
                             {' '}
                             <span className="gradient-text">You are the Winner!</span>
