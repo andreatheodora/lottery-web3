@@ -23,7 +23,7 @@ const App = () => {
             if (ethereum && ethereum.selectedAddress) {
                 console.log("MetaMask is connected");
                 setCurrentAccount(ethereum.selectedAddress);
-                console.log("Logged in as: "+ethereum.selectedAddress);
+                console.log("Logged in as: " + ethereum.selectedAddress);
             } else {
                 console.log("Connect your MetaMask account!");
             }
@@ -31,8 +31,8 @@ const App = () => {
 
         const getLotteryIsOver = async () => {
             try {
-                const { ethereum } = window;
-    
+                const {ethereum} = window;
+
                 if (ethereum) {
                     const provider = new ethers.providers.Web3Provider(ethereum)
                     const signer = provider.getSigner();
@@ -41,9 +41,9 @@ const App = () => {
                         contractABI,
                         signer
                     );
-    
+
                     const isOver = await lottery.getLotteryIsOver();
-    
+
                     setLotteryIsOver(isOver);
                 }
             } catch (error) {
@@ -59,7 +59,7 @@ const App = () => {
     const [currentPrize, setCurrentPrize] = useState(0)
     const [ticketsRemaining, setTicketsRemaining] = useState(0)
 
-    useEffect(()=>{
+    useEffect(() => {
         const getLotteryInfo = async () => {
             try {
                 const {ethereum} = window;
@@ -71,7 +71,7 @@ const App = () => {
                         contractABI,
                         signer
                     );
-    
+
                     console.log("fetching lottery data...");
                     const prizeInWei = await lottery.getContractBalance();
                     const prize = prizeInWei / (10 ** 18);
@@ -81,13 +81,13 @@ const App = () => {
                     console.log(ticketsRemaining)
                     setTicketsRemaining(parseInt(ticketsRemaining));
                     console.log("fetched!");
-    
+
                 }
             } catch (error) {
                 console.log(error);
             }
         };
-    
+
         getLotteryInfo();
     });
 
@@ -125,8 +125,8 @@ const App = () => {
     useEffect(() => {
         const checkRole = async () => {
             try {
-                const { ethereum } = window;
-    
+                const {ethereum} = window;
+
                 if (ethereum) {
                     const provider = new ethers.providers.Web3Provider(ethereum, "any");
                     const signer = provider.getSigner();
@@ -135,9 +135,9 @@ const App = () => {
                         contractABI,
                         signer
                     );
-    
+
                     const role = await lottery.isAdmin(currentAccount);
-                    console.log("Admin? "+role);
+                    console.log("Admin? " + role);
                     setIsAdmin(role);
                 }
             } catch (error) {
@@ -148,7 +148,7 @@ const App = () => {
         const checkIsWinner = async () => {
             try {
                 const {ethereum} = window;
-    
+
                 if (ethereum) {
                     const provider = new ethers.providers.Web3Provider(ethereum, "any");
                     const signer = provider.getSigner();
@@ -157,10 +157,10 @@ const App = () => {
                         contractABI,
                         signer
                     );
-    
+
                     const result = await lottery.isWinner(currentAccount);
-    
-                    console.log("Winner?"+result);
+
+                    console.log("Winner?" + result);
 
                     setIsWinner(result);
                 }
@@ -168,7 +168,7 @@ const App = () => {
                 console.log(error)
             }
         }
-        
+
         checkIsWinner();
         checkRole();
     }, [currentAccount])
@@ -193,10 +193,10 @@ const App = () => {
             console.log(error);
         }
     };
-    
+
     const endLottery = async () => {
         try {
-            const { ethereum } = window;
+            const {ethereum} = window;
 
             if (ethereum) {
                 const provider = new ethers.providers.Web3Provider(ethereum, "any");
@@ -219,7 +219,7 @@ const App = () => {
 
     const restartLottery = async () => {
         try {
-            const { ethereum } = window;
+            const {ethereum} = window;
 
             if (ethereum) {
                 const provider = new ethers.providers.Web3Provider(ethereum, "any");
@@ -251,7 +251,7 @@ const App = () => {
                 );
 
                 const totalCostInString = totalCost.toString();
-                
+
                 const entryTxn = await lottery.enter(
                     numberOfTickets,
                     {value: BigNumber.from(totalCostInString)}
@@ -260,9 +260,9 @@ const App = () => {
 
                     // Hide the notification after 3 seconds
                     setTimeout(() => {
-                    setShowNotification(false);
+                        setShowNotification(false);
                     }, 3000);
-                });            
+                });
 
                 console.log(entryTxn);
             }
@@ -297,7 +297,7 @@ const App = () => {
 
             {/*Lottery Purchase Page, Admin Button*/}
             {showHiddenDiv && !lotteryIsOver && (
-                <div>
+                <div className="container">
                     {/* Hidden div content */}
                     <div id="hidden-div-title" className="center-top">
                         <h5 className="fancy">
@@ -420,8 +420,8 @@ const App = () => {
 
             {showNotification && (
                 <div className="popup">
-                <TaskAltIcon style={{ color: 'green', fontSize: '3rem' }}/>
-                <p>Purchase complete!</p>
+                    <TaskAltIcon style={{color: 'green', fontSize: '3rem'}}/>
+                    <p>Purchase complete!</p>
                 </div>
             )}
         </div>
