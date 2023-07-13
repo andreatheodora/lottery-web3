@@ -14,5 +14,5 @@ Steps to use:
 3. run npm start
 
 Created by
-Andrew Sebastian Hardianta
-Theodora Andrea Lydia
+\nAndrew Sebastian Hardianta
+\nTheodora Andrea Lydia
