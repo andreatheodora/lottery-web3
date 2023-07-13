@@ -7,7 +7,7 @@ import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 const App = () => {
     // Contract address & ABI
-    const contractAddress = "0x71667827D8b1010B6dE1c1cf6f686C45C3Cf1fEe"
+    const contractAddress = "0x02ed624965D67e6c0F20Fb3B4731d0D995DebB08"
     const contractABI = abi.abi
 
     // Wallet Check & Connect, Ticket prices functionality, Lottery info
@@ -94,7 +94,6 @@ const App = () => {
     // Lottery Draw
     const pricePerTicket = 1000000000000000; // Example: Price per ticket in Wei
     const networkFees = 1000000000000;
-    const serviceFees = 100000000000000;
 
     // Calculate total cost of tickets
     useEffect(() => {
@@ -275,7 +274,7 @@ const App = () => {
 
     return (
         <div>
-            {/*Main Home Page*/}
+            {/*Main Landing Page*/}
             {!showHiddenDiv && (
                 <div>
                     {/* Home page content */}
@@ -322,7 +321,7 @@ const App = () => {
                             <tbody>
                             <tr>
                                 <td>
-                                    <span className="panel-item-label">Prize per Ticket</span>
+                                    <span className="panel-item-label">Price per Ticket</span>
                                 </td>
                                 <td>
                                     <span className="panel-item-value italic">{(pricePerTicket) / 10 ** 18} ETH</span>
@@ -351,7 +350,7 @@ const App = () => {
                             </tr>
                             <tr>
                                 <td>
-                                    <span className="panel-item-label italic">Network Fees</span>
+                                    <span className="panel-item-label">Network Fees Est.</span>
                                 </td>
                                 <td>
                                     <span className="panel-item-value italic">{networkFees / (10 ** 18)} ETH</span>
@@ -381,7 +380,7 @@ const App = () => {
 
             {/*Lottery is over and not winner page*/}
             {showHiddenDiv && !isWinner && lotteryIsOver && (
-                <div>
+                <div className="result-container">
                     <div className="centered">
                         <h2 id="title">Sorry.. </h2>
                         <h2 id="title" className="fancy">
@@ -392,13 +391,12 @@ const App = () => {
                             </h2>
                         </h2>
                     </div>
-                    <div className="grid"/>
                 </div>
             )}
 
             {/*Lottery is over and is winner page*/}
             {showHiddenDiv && isWinner && lotteryIsOver && (
-                <div>
+                <div className="result-container">
                     <div className="centered">
                         <h2 id="title">Congratulations </h2>
                         <h2 id="title" className="fancy">
@@ -406,11 +404,10 @@ const App = () => {
                             <span className="gradient-text">You are the Winner!</span>
                         </h2>
                     </div>
-                    <div className="grid"/>
                 </div>
             )}
 
-            {isAdmin && showHiddenDiv && lotteryIsOver && (
+            {showHiddenDiv && isAdmin && lotteryIsOver && (
                 <div className="admin-button-container">
                     <button className="admin-button" onClick={restartLottery}>
                         Restart
