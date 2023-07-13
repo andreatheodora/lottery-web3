@@ -7,6 +7,7 @@ contract Lottery {
     uint256 public prizePool;
     uint public numberOfTickets;
     address public winner;
+    bool public lotteryIsOver;
 
     event NewEntry(
         address indexed from,
@@ -24,6 +25,7 @@ contract Lottery {
     constructor() {
         manager = msg.sender;
         numberOfTickets = 50;
+        lotteryIsOver = false;
     }
 
     function enter(uint _amount) public payable {
@@ -57,15 +59,13 @@ contract Lottery {
 
         uint256 index = random() % players.length;
         address payable result = payable(players[index]);
+        winner = result;
         result.transfer(address(this).balance);
 
         players = new address[](0); // Resetting the players array
 
         numberOfTickets = 50;
-    }
-
-    function getWinner() public view returns (address) {
-        return winner;
+        lotteryIsOver = true;
     }
 
     function random() private view returns (uint256) {
@@ -88,6 +88,22 @@ contract Lottery {
         } else {
             return false;
         }
+    }
+
+    function isWinner(address _addr) public view returns (bool) {
+        if (winner == _addr) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function getLotteryIsOver() public view returns (bool) {
+        return lotteryIsOver;
+    }
+
+    function restartLottery() public restricted {
+        lotteryIsOver = false;
     }
 
     modifier restricted() {
