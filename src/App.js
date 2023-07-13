@@ -8,7 +8,7 @@ import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 const App = () => {
     // Contract address & ABI
-    const contractAddress = "0x606e25985d6eaFd86e7eef86D00Ae52772f9541C"
+    const contractAddress = "0x71667827D8b1010B6dE1c1cf6f686C45C3Cf1fEe"
     const contractABI = abi.abi
 
     // Spinning squares animation
@@ -248,6 +248,26 @@ const App = () => {
         }
     }
 
+    const restartLottery = async () => {
+        try {
+            const { ethereum } = window;
+
+            if (ethereum) {
+                const provider = new ethers.providers.Web3Provider(ethereum, "any");
+                const signer = provider.getSigner();
+                const lottery = new ethers.Contract(
+                    contractAddress,
+                    contractABI,
+                    signer
+                );
+
+                await lottery.restartLottery();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const purchase = async () => {
         try {
             const {ethereum} = window;
@@ -310,7 +330,7 @@ const App = () => {
             )}
 
             {/*Lottery Purchase Page, Admin Button*/}
-            {showHiddenDiv && !isWinner && !lotteryIsOver && (
+            {showHiddenDiv && !lotteryIsOver && (
                 <div>
                     {/* Hidden div content */}
                     <MousePointer/>
@@ -433,6 +453,14 @@ const App = () => {
                         </h2>
                     </div>
                     <div className="grid"/>
+                </div>
+            )}
+
+            {isAdmin && showHiddenDiv && lotteryIsOver && (
+                <div className="admin-button-container">
+                    <button className="admin-button" onClick={restartLottery}>
+                        Restart
+                    </button>
                 </div>
             )}
 
