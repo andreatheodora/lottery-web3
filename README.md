@@ -16,3 +16,13 @@ Steps to use:
 Created by
 - Andrew Sebastian Hardianta
 - Theodora Andrea Lydia
+
+## Documentation
+
+![image1](/images/image1.png)
+
+![image2](/images/image2.png)
+
+![image3winner](/images/image3winner.png)
+
+![adminPageGif](/images/adminMainPage.gif)
