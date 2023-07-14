@@ -19,10 +19,14 @@ Created by
 
 ## Documentation
 
+Home Page
 ![image1](/images/image1.png)
 
+Purchase Complete
 ![image2](/images/image2.png)
 
+Winner Page
 ![image3winner](/images/image3winner.png)
 
+Purchase Page Showcase gif
 ![adminPageGif](/images/adminMainPage.gif)
